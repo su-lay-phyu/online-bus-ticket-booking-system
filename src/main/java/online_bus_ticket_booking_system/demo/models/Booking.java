@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,7 +21,9 @@ public class Booking {
     @Column(name="reference_id")
     private String referenceId;
     @Column(name="total_price")
-    private double totalPrice;
+    private BigDecimal totalPrice;
+    @Column(name="seat_count")
+    private int seatCount;
     @Column(name="booked_at")
     private Instant bookedAt;
     @Enumerated(value = EnumType.STRING)
@@ -33,4 +37,6 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name="payment_id")
     private Payment payment;
+    @OneToMany(mappedBy = "booking",cascade = CascadeType.ALL)
+    private List<BookingSeat> seats;
 }

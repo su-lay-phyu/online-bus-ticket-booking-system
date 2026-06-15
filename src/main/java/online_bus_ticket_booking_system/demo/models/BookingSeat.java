@@ -5,19 +5,33 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @RequiredArgsConstructor
 @Entity
-@Table(name="booking_seats")
+@Table(
+        name="booking_seats",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames={
+                                "booking_id",
+                                "bus_seat_id"
+                        }
+                )
+        }
+)
 public class BookingSeat {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="seat_no")
-    private String seatNo;
-    private double price;
+    private BigDecimal price;
     @ManyToOne
     @JoinColumn(name="booking_id")
     private Booking booking;
+    @ManyToOne
+    @JoinColumn(name="bus_seat_id")
+    private BusSeat busSeat;
 }
